@@ -3,12 +3,17 @@
 import Vue from 'vue'
 import App from './App'
 import ElementUI from 'element-ui'
+import MyHttpServer from './plugins/http'
 // 不要忘记引入css文件
 import 'element-ui/lib/theme-chalk/index.css'
+// 导入全局样式
+import '@/assets/css/reset.css'
+
 import router from './router'
 
-// 适用于vue插件
+// 适用于vue插件Vue.use()
 Vue.use(ElementUI)
+Vue.use(MyHttpServer)
 
 Vue.config.productionTip = false
 
