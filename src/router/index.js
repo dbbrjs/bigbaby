@@ -3,6 +3,7 @@ import Router from 'vue-router'
 // import Login from '../components/login/login'
 // @->src   @自动指向src
 import Login from '@/components/login/login'
+import Home from '../components/home/home'
 
 Vue.use(Router)
 
