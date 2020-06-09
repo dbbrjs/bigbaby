@@ -22,7 +22,7 @@
       <el-aside width="200px" class="aside">
 <!--        侧边栏导航-->
         <el-menu
-          unique-opened="true"
+          :unique-opened="true"
         >
 <!--          1-->
           <el-submenu index="1">
@@ -104,9 +104,20 @@
 </template>
 
 <script>
-  export default {
-
+export default {
+  // 权限验证
+  // newVue之前自动触发
+  beforeCreate () {
+    // 获取token
+    const token = localStorage.getItem('token')
+    console.log(token)
+    // token 没有->登录
+    if (!token) {
+      this.$router.push({name: 'login'})
+    }
+    // if token 有->继续渲染组件
   }
+}
 </script>
 
 <style scoped>
