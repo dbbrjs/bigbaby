@@ -119,7 +119,7 @@ export default {
     // if token 有->继续渲染组件
   },
   methods: {
-    handleSignout() {
+    handleSignout () {
       // 1.清除token
       localStorage.clear()
       // 2.提示
