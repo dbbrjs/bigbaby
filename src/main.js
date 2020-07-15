@@ -3,6 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import ElementUI from 'element-ui'
+// 导入，MyBread其实是组件选项所在的对象{template:'',data等}
+import MyBread from '@/components/cuscom/myBread.vue'
+
 import MyHttpServer from './plugins/http'
 import moment from 'moment'
 // 不要忘记引入css文件
@@ -22,6 +25,9 @@ Vue.config.productionTip = false
 Vue.filter('fmtdata', (v) => {
   return moment(v).format('YYYY-MM-DD')
 })
+
+// 全局自定义组件
+Vue.component(MyBread.name, MyBread)
 
 /* eslint-disable no-new */
 new Vue({

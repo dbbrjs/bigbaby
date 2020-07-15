@@ -2,11 +2,12 @@
   <el-card class="box-card">
     <!--    1.面包屑-->
     <!--    首页/用户管理/用户列表-->
-    <el-breadcrumb separator-class="el-icon-arrow-right">
+    <!-- <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item>首页</el-breadcrumb-item>
       <el-breadcrumb-item>用户管理</el-breadcrumb-item>
       <el-breadcrumb-item>用户列表</el-breadcrumb-item>
-    </el-breadcrumb>
+    </el-breadcrumb> -->
+    <my-bread level1='用户管理' level2='用户列表'></my-bread>
     <!--    2.搜索-->
     <el-row class="searchRow">
       <el-col>
@@ -31,11 +32,11 @@
       <el-table-column
         type="index"
         label="#"
-        width="60">
+        width="100">
       </el-table-column>
       <el-table-column
         prop="username"
-        label="姓名"
+        label="用户名称"
         width="180">
       </el-table-column>
       <el-table-column
@@ -182,7 +183,6 @@ export default {
   data () {
     return {
       query: '',
-
       // 表格绑定数据
       userlist: [],
       // 分页相关数据
@@ -213,9 +213,10 @@ export default {
   methods: {
     // 获取用户列表的请求
     async getUserList () {
-      // 需要授权的API，必须在请求头中使用 Authorization 字段提供 token 令牌
-      const AUTH_TOKEN = localStorage.getItem('token')
-      this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN
+      // 需要授权的API，必须在请求头中使用 Authorization 字段提供 token 令牌(在http.js中axios里面统一设置了)
+      // const AUTH_TOKEN = localStorage.getItem('token')
+      // this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN
+
       const res = await this.$http.get(
         `users?query=${this.query}&pagenum=${this.pagenum}&pagesize=${
           this.pagesize
@@ -268,8 +269,7 @@ export default {
 
       const res = await this.$http.post('users', this.form)
       // console.log(res)
-      const {meta: {msg, status}, data} = res.data
-      // console.log(data)
+      const {meta: {msg, status}} = res.data
       if (status === 201) {
         // 1.提示成功
         this.$message.success(msg)
@@ -347,7 +347,7 @@ export default {
       // users/:id/role
       // :id 要修改的用户的id
       // 请求体中rid修改的新值角色id
-      const res = await this.$http.put(`users/${this.currUserId}/role`, {
+      await this.$http.put(`users/${this.currUserId}/role`, {
         rid: this.currRoleId
       })
       // 关闭对话框
