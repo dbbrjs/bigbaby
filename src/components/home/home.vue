@@ -25,75 +25,19 @@
           :unique-opened="true"
           :router="true"
         >
-          <el-submenu index="1">
-            <!--              <template slot="title">分组一</template>-->
+ <!-- 1 -->
+          <el-submenu :index="''+item.order" v-for="(item,index) in this.menus" :key="index">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>用户管理</span>
+              <span>{{item.authName}}</span>
             </template>
-              <el-menu-item index="users">
+
+              <el-menu-item :index="item1.path" v-for="(item1,index) in item.children" :key="index">
                 <i class="el-icon-success"></i>
-                <span>用户列表</span>
+                <span>{{item1.authName}}</span>
               </el-menu-item>
           </el-submenu>
-<!--2-->
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>权限管理</span>
-            </template>
-            <el-menu-item index="role">
-              <i class="el-icon-success"></i>
-              <span>角色列表</span>
-            </el-menu-item>
-            <el-menu-item index="rights">
-              <i class="el-icon-success"></i>
-              <span>权限列表</span>
-            </el-menu-item>
-          </el-submenu>
-<!--3-->
-          <el-submenu index="3">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>商品管理</span>
-            </template>
-            <el-menu-item index="3-1">
-              <i class="el-icon-success"></i>
-              <span>商品列表</span>
-            </el-menu-item>
-            <el-menu-item index="3-2">
-              <i class="el-icon-success"></i>
-              <span>分类参数</span>
-            </el-menu-item>
-            <el-menu-item index="3-3">
-              <i class="el-icon-success"></i>
-              <span>商品分类</span>
-            </el-menu-item>
-          </el-submenu>
-<!--4-->
-          <el-submenu index="4">
-            <!--              <template slot="title">分组一</template>-->
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>订单管理</span>
-            </template>
-            <el-menu-item index="4-1">
-              <i class="el-icon-success"></i>
-              <span>订单列表</span>
-            </el-menu-item>
-          </el-submenu>
-<!--          5-->
-          <el-submenu index="5">
-            <!--              <template slot="title">分组一</template>-->
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>数据统计</span>
-            </template>
-            <el-menu-item index="5-1">
-              <i class="el-icon-success"></i>
-              <span>数据报表</span>
-            </el-menu-item>
-          </el-submenu>
+
         </el-menu>
       </el-aside>
 
@@ -107,16 +51,24 @@
 
 <script>
 export default {
+  data() {
+    return {
+      menus:[]
+    }
+  },
   // 权限验证
   // newVue之前自动触发
   beforeCreate () {
-    // 获取token
-    const token = localStorage.getItem('token')
-    // token 没有->登录
-    if (!token) {
-      this.$router.push({name: 'login'})
-    }
+    // // 获取token
+    // const token = localStorage.getItem('token')
+    // // token 没有->登录
+    // if (!token) {
+    //   this.$router.push({name: 'login'})
+    // }
     // if token 有->继续渲染组件
+  },
+  created() {
+    this.getMenus()
   },
   methods: {
     handleSignout () {
@@ -126,6 +78,11 @@ export default {
       this.$message.success('退出成功')
       // 3.来到login组件
       this.$router.push({name: 'login'})
+    },
+    async getMenus() {
+      const res = await this.$http.get(`menus`)
+      console.log(res);
+      this.menus = res.data.data
     }
   }
 }
